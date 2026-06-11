@@ -1,49 +1,113 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { registerSchema, RegisterInput } from '@/schemas/registerSchema';
+import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/lib/constants';
+import { Input } from '../ui/Input';
+import { Button } from '../ui/Button';
 import { SocialLoginButton } from './SocialLoginButton';
+import { AlertCircle, User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 export const RegisterForm = () => {
+  const router = useRouter();
+  const { register: registerUser } = useAuth();
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterInput>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (data: RegisterInput) => {
+    setErrorMsg(null);
+    setIsSubmitting(true);
+    try {
+      await registerUser(data);
+      router.push(ROUTES.DASHBOARD);
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Registration failed.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-5 items-center w-full">
-      {/* Onboarding Screen Graphic */}
-      <div className="my-1 flex justify-center">
-        <img 
-          src="/login-illustration.png" 
-          alt="Mentorship illustration" 
-          className="w-40 h-40 object-contain mx-auto"
+    <div className="flex flex-col gap-4">
+      <h2 className="text-3xl font-black text-primary text-center tracking-tight mb-2">
+        Sign Up
+      </h2>
+
+      {errorMsg && (
+        <div className="flex items-center gap-2.5 p-3 py-2.5 rounded-full border border-red-500/10 bg-red-500/5 text-red-500 text-xs font-bold">
+          <AlertCircle className="w-4 h-4 flex-shrink-0" />
+          <span>{errorMsg}</span>
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3.5">
+        <Input
+          id="name"
+          placeholder="Full Name"
+          error={errors.name?.message}
+          disabled={isSubmitting}
+          icon={<User className="w-4.5 h-4.5 text-slate-400" />}
+          {...register('name')}
         />
-      </div>
 
-      {/* Onboarding Text */}
-      <div className="text-center px-1">
-        <h2 className="text-2xl font-black text-primary tracking-tight leading-tight">
-          Private Coaching
-        </h2>
-        <p className="text-xs text-slate-500 font-bold max-w-[240px] mx-auto mt-2 leading-relaxed">
-          Add one-on-one, confidential sessions for only $35 per session
-        </p>
-      </div>
+        <Input
+          id="email"
+          type="email"
+          placeholder="Email"
+          error={errors.email?.message}
+          disabled={isSubmitting}
+          icon={<Mail className="w-4.5 h-4.5 text-slate-400" />}
+          {...register('email')}
+        />
 
-      {/* Progress Indicator Lines (3 segments: 2 green, 1 grey) */}
-      <div className="flex justify-center gap-1.5 w-full max-w-[240px] my-1">
-        <div className="flex-grow h-1 rounded-full bg-secondary" />
-        <div className="flex-grow h-1 rounded-full bg-secondary" />
-        <div className="flex-grow h-1 rounded-full bg-slate-200" />
-      </div>
+        <Input
+          id="password"
+          type={showPassword ? 'text' : 'password'}
+          placeholder="Password"
+          error={errors.password?.message}
+          disabled={isSubmitting}
+          icon={<Lock className="w-4.5 h-4.5 text-slate-400" />}
+          rightElement={
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="text-slate-400 hover:text-slate-650 focus:outline-none flex items-center justify-center"
+            >
+              {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
+            </button>
+          }
+          {...register('password')}
+        />
 
-      {/* Social and Guest login buttons */}
+        <Button type="submit" variant="primary" fullWidth isLoading={isSubmitting} className="mt-2.5 py-3">
+          Sign Up
+        </Button>
+      </form>
+
       <SocialLoginButton />
 
-      {/* Log in link */}
-      <p className="text-center text-xs text-slate-500 font-bold mt-1.5">
+      <p className="text-center text-xs text-slate-500 font-bold mt-2">
         Already have an account?{' '}
-        <Link 
-          href={ROUTES.LOGIN} 
-          className="text-primary hover:text-primary-hover font-extrabold underline decoration-primary/25 underline-offset-4"
-        >
+        <Link href={ROUTES.LOGIN} className="text-primary hover:text-primary-hover font-extrabold underline decoration-primary/25 underline-offset-4">
           Log in
         </Link>
       </p>
