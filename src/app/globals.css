@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #152f16;        /* Dark Forest Green */
+  --color-primary-hover: #0d1e0e;  /* Lighter Forest Green */
+  --color-secondary: #9ee870;      /* Lime Green */
+  --color-secondary-hover: #89cf5e; /* Darker Lime Green */
+  --color-neutral-bg: #f4f6f3;     /* Off-White Green Undertone */
+  --color-button-grey: #eaede9;    /* Light Grey Button */
+  --color-button-grey-hover: #dcffd4; /* Highlight Hover */
+}
+
+:root {
+  --background: #f4f6f3;
+  --foreground: #0f172a;
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Minimalist light-theme utilities */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(21, 47, 22, 0.05);
+}
+
+.glass-effect-card {
+  background: #ffffff;
+  border: 1px solid rgba(21, 47, 22, 0.04);
+  box-shadow: 0 10px 40px -10px rgba(21, 47, 22, 0.06);
+}
+
+.glass-effect-input {
+  background: #ffffff;
+  border: 1px solid rgba(21, 47, 22, 0.08);
+  color: #0f172a;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-effect-input:focus {
+  border-color: #152f16;
+  box-shadow: 0 0 0 2px rgba(21, 47, 22, 0.1);
+  outline: none;
+}
+
+/* Grid pattern background overlay */
+.bg-grid-pattern {
+  background-size: 50px 50px;
+  background-image: linear-gradient(to right, rgba(21, 47, 22, 0.015) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(21, 47, 22, 0.015) 1px, transparent 1px);
+}
+
+/* Custom scrollbars for light theme */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f6f3;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(21, 47, 22, 0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(21, 47, 22, 0.3);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.animate-shake {
+  animation: shake 0.2s ease-in-out 2;
+}
