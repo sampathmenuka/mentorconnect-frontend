@@ -16,6 +16,11 @@ export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
+  // Hide navigation bar on authentication routes
+  if (pathname === ROUTES.LOGIN || pathname === ROUTES.REGISTER) {
+    return null;
+  }
+
   const handleLogout = async () => {
     await logout();
     router.push(ROUTES.HOME);

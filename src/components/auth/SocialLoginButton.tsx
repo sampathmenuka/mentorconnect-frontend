@@ -70,7 +70,7 @@ export const SocialLoginButton = () => {
         {googleLoading ? (
           <Spinner size="sm" />
         ) : (
-          <span className="w-4 h-4 bg-white rounded-full shadow-sm flex items-center justify-center text-[9px] font-black border border-slate-200">G</span>
+          <img src="/google-icon.png" alt="Google" className="w-4.5 h-4.5 object-contain" />
         )}
         <span>Continue with Google</span>
       </button>
@@ -84,7 +84,7 @@ export const SocialLoginButton = () => {
         {appleLoading ? (
           <Spinner size="sm" />
         ) : (
-          <span className="text-[12px] leading-none"></span>
+          <img src="/apple-icon.png" alt="Apple" className="w-4.5 h-4.5 object-contain" />
         )}
         <span>Continue with Apple</span>
       </button>
@@ -98,9 +98,7 @@ export const SocialLoginButton = () => {
         {guestLoading ? (
           <Spinner size="sm" />
         ) : (
-          <svg className="w-3.5 h-3.5 text-slate-650" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-          </svg>
+          <img src="/guest-icon.png" alt="Guest" className="w-4.5 h-4.5 object-contain" />
         )}
         <span>Continue As Guest</span>
       </button>

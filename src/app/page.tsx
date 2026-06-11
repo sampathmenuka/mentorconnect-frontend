@@ -8,9 +8,12 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { Calendar, Compass, ShieldCheck, ArrowRight, Zap, Trophy, MessageSquare, Star } from 'lucide-react';
 
+import { redirect } from 'next/navigation';
+
 export default function LandingPage() {
   const { isAuthenticated } = useAuth();
-
+  redirect(ROUTES.LOGIN);
+  
   return (
     <div className="relative min-h-[90vh] flex flex-col items-center bg-grid-pattern overflow-hidden">
       {/* Background radial glow */}
