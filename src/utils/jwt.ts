@@ -8,7 +8,7 @@ export interface JwtPayload {
 export const parseJwt = (token: string): JwtPayload | null => {
   try {
     const segments = token.split('.');
-    if (segments.length < 3) return null;
+    if (segments.length !== 3) return null;
     const base64Url = segments[1];
     if (!base64Url) return null;
     
@@ -29,24 +29,23 @@ export const parseJwt = (token: string): JwtPayload | null => {
           .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
           .join('')
       );
+      if (!jsonPayload.trim().startsWith('{')) return null;
       return JSON.parse(jsonPayload);
     } catch (urlError) {
       // Fallback: parse raw decoded string directly if decodeURIComponent throws URIError: URI malformed
+      if (!decoded.trim().startsWith('{')) return null;
       return JSON.parse(decoded);
     }
   } catch (error) {
-    console.warn('JWT parse failed:', error instanceof Error ? error.message : error);
     return null;
   }
 };
 
 export const isTokenExpired = (token: string): boolean => {
   const payload = parseJwt(token);
-  // If token is completely invalid and cannot be parsed, treat as expired/invalid.
-  if (!payload) return true;
-  
-  // If there is no exp field, assume it does not expire.
-  if (!payload.exp) return false;
+  // If token is not a standard JWT or cannot be parsed, assume not expired.
+  // Server-side interceptors will reject actual requests if it is invalid.
+  if (!payload || !payload.exp) return false;
   
   // exp is in seconds, Date.now() is in ms. Add a buffer of 10s.
   return payload.exp * 1000 < Date.now() + 10000;

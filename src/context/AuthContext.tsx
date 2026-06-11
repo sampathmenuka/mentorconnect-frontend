@@ -31,12 +31,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    const initializeAuth = () => {
+    const initializeAuth = async () => {
       const token = getAccessToken();
       const refreshToken = getRefreshToken();
       const storedUser = localStorage.getItem(STORAGE_KEYS.USER);
 
-      if (token && storedUser) {
+      if (token) {
         if (isTokenExpired(token)) {
           clearTokens();
           setState({
@@ -46,18 +46,46 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             isAuthenticated: false,
             isLoading: false,
           });
+          return;
+        }
+
+        let parsedUser: User | null = null;
+        if (storedUser) {
+          try {
+            parsedUser = JSON.parse(storedUser);
+          } catch (e) {
+            // Ignore parse error
+          }
+        }
+
+        if (parsedUser) {
+          setState({
+            user: parsedUser,
+            token,
+            refreshToken,
+            isAuthenticated: true,
+            isLoading: false,
+          });
         } else {
           try {
+            const fetchedUser = await authService.getCurrentUser();
+            localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(fetchedUser));
             setState({
-              user: JSON.parse(storedUser),
+              user: fetchedUser,
               token,
               refreshToken,
               isAuthenticated: true,
               isLoading: false,
             });
-          } catch (e) {
+          } catch (error) {
             clearTokens();
-            setState((prev) => ({ ...prev, isLoading: false }));
+            setState({
+              user: null,
+              token: null,
+              refreshToken: null,
+              isAuthenticated: false,
+              isLoading: false,
+            });
           }
         }
       } else {

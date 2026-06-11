@@ -5,7 +5,8 @@ export const setCookie = (name: string, value: string, days = 1) => {
   const date = new Date();
   date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
   const expires = `; expires=${date.toUTCString()}`;
-  document.cookie = `${name}=${value || ''}${expires}; path=/; SameSite=Lax; Secure`;
+  const secureFlag = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `${name}=${value || ''}${expires}; path=/; SameSite=Lax${secureFlag}`;
 };
 
 export const getCookie = (name: string): string | null => {
@@ -21,7 +22,8 @@ export const getCookie = (name: string): string | null => {
 
 export const eraseCookie = (name: string) => {
   if (typeof window === 'undefined') return;
-  document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax; Secure`;
+  const secureFlag = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax${secureFlag}`;
 };
 
 export const getAccessToken = (): string | null => {
