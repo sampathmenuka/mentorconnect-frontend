@@ -1,36 +1,253 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MentorConnect
 
-## Getting Started
+MentorConnect is a full-stack web application designed to connect mentors and mentees through a secure and user-friendly platform. The system enables users to register, authenticate, manage profiles, and explore mentorship opportunities while providing a modern and responsive user experience.
 
-First, run the development server:
+## 🚀 Live Demo
+
+### Frontend
+
+https://mentorconnect-frontend-wine.vercel.app/login
+
+### Backend API
+
+https://mentorconnect-api.onrender.com
+
+---
+
+## ✨ Features
+
+### Authentication & Authorization
+
+* User registration
+* User login
+* JWT-based authentication
+* Protected API endpoints
+* Secure password storage
+
+### User Management
+
+* Create user accounts
+* Manage user profiles
+* Role-based access (Mentor / Mentee)
+
+### Responsive UI
+
+* Modern interface
+* Mobile-friendly design
+* Responsive layouts
+
+---
+
+## 🛠️ Technology Stack
+
+### Frontend
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+* Fetch API
+
+### Backend
+
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* JWT Authentication
+* Maven
+
+### Database
+
+* PostgreSQL
+
+### Deployment
+
+* Frontend: Vercel
+* Backend: Render
+* Database: Render PostgreSQL
+
+---
+
+## 🏗️ System Architecture
+
+```text
+Frontend (Next.js)
+        │
+        ▼
+ REST API (Spring Boot)
+        │
+        ▼
+ PostgreSQL Database
+```
+
+---
+
+## 📂 Project Structure
+
+### Frontend
+
+```text
+src/
+├── app/
+├── components/
+├── services/
+├── hooks/
+├── lib/
+└── types/
+```
+
+### Backend
+
+```text
+src/
+├── controller/
+├── service/
+├── repository/
+├── model/
+├── dto/
+├── security/
+└── config/
+```
+
+---
+
+## 📖 API Documentation
+
+### Authentication APIs
+
+| Method | Endpoint             | Description                            |
+| ------ | -------------------- | -------------------------------------- |
+| POST   | `/api/auth/register` | Register a new user account            |
+| POST   | `/api/auth/login`    | Authenticate user and return JWT token |
+
+---
+
+### Register User
+
+#### Endpoint
+
+```http
+POST /api/auth/register
+```
+
+#### Request Body
+
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "role": "MENTOR"
+}
+```
+
+#### Success Response
+
+```json
+{
+  "message": "User registered successfully"
+}
+```
+
+---
+
+### Login User
+
+#### Endpoint
+
+```http
+POST /api/auth/login
+```
+
+#### Request Body
+
+```json
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+#### Success Response
+
+```json
+{
+  "token": "jwt-token"
+}
+```
+
+---
+
+## ⚙️ Local Setup
+
+### Backend Setup
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/sampathmenuka/mentorconnect-api.git
+```
+
+2. Configure database credentials in `application.properties`
+
+```properties
+spring.datasource.url=YOUR_DATABASE_URL
+spring.datasource.username=YOUR_USERNAME
+spring.datasource.password=YOUR_PASSWORD
+```
+
+3. Run the application
+
+```bash
+./mvnw spring-boot:run
+```
+
+---
+
+### Frontend Setup
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/sampathmenuka/mentorconnect-frontend.git
+```
+
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Create environment file
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8080
+```
+
+4. Start development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔗 GitHub Repositories
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Frontend Repository
 
-## Learn More
+https://github.com/sampathmenuka/mentorconnect-frontend
 
-To learn more about Next.js, take a look at the following resources:
+### Backend Repository
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+https://github.com/sampathmenuka/mentorconnect-api
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 👨‍💻 Author
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Sampath Menuka**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Software Engineering Undergraduate
+
+Sabaragamuwa University of Sri Lanka
